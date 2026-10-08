@@ -38,13 +38,6 @@ The pipeline uses Python's built-in `csv` module and `mysql-connector-python` to
 
 ![Walmart Sales ETL workflow](https://github.com/garadsagar15-lgtm/Walmart-sales-etl-pipeline/blob/main/Walmart.jpg)
 
-### Python ETL code
-
-![Python ETL code screenshot](assets/python-code.png)
-
-### MySQL Workbench results
-
-![MySQL Workbench showing the Walmart sales tables](assets/mysql-workbench.png)
 
 Add the Python code and Workbench screenshots to the repository at `assets/python-code.png` and `assets/mysql-workbench.png`, or update the image links above to match your filenames. The workflow diagram is included as `Walmart_Sales_ETL_Workflow.svg`.
 
