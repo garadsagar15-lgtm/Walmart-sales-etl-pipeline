@@ -36,7 +36,8 @@ The pipeline uses Python's built-in `csv` module and `mysql-connector-python` to
 
 ### ETL workflow
 
-![Walmart Sales ETL workflow](Walmart_Sales_ETL_Workflow.svg)
+![Walmart Sales ETL workflow](<img width="1600" height="1200" alt="Walmart" src="https://github.com/user-attachments/assets/a81a0a56-92cc-4851-8399-e8d764b19874" />
+)
 
 ### Python ETL code
 
@@ -97,5 +98,5 @@ The CSV dates are expected in `DD-MM-YYYY` format. The main table uses `(Store, 
 
 ## License
 
-No license has been selected for this project. Before publishing it or granting others permission to reuse it, choose and add a license that reflects your intended permissions.
+Add a license here if you intend to share or reuse this project publicly.
 
