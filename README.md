@@ -1,103 +1,101 @@
-# Walmart Sales ETL Pipeline
+# Walmart Sales ETL Pipeline with Python and MySQL
 
-A Python and MySQL ETL project that imports Walmart weekly sales data from a CSV file, prepares it for database storage, and creates 12 analysis tables with SQL. The pipeline demonstrates practical ETL steps alongside common SQL operations such as filtering, sorting, grouping, aggregation, and conditional categorization.
+A beginner-friendly ETL workflow that uses Python and MySQL to extract Walmart weekly sales data from a CSV file, prepare and load it into a database, and create 12 tables for analysis.
 
-## Workflow
+## Overview
 
-![Walmart Sales ETL workflow]("C:\Users\SAGAR\Downloads\Walmart.jpg")
+The pipeline uses Python's built-in `csv` module and `mysql-connector-python` to read `Walmart_Sales.csv`, parse the dates and numeric fields, and load the rows into the MySQL `Walmart_Sales` table. It then runs SQL queries to create 12 derived tables demonstrating common filtering, selection, sorting, grouping, aggregation, and categorization operations.
 
-The workflow diagram is saved as `Walmart_Sales_ETL_Workflow.svg` in this repository. If you store it in another folder, update the image path above.
+### ETL workflow
 
-## Project Overview
+1. **Extract** Walmart sales records from `Walmart_Sales.csv`.
+2. **Transform** the CSV values by parsing dates and converting fields to numeric types.
+3. **Load** the data into the MySQL `Walmart_Sales` table.
+4. **Analyze** the loaded data with SQL and save each result in a separate table.
 
-- **Source:** `Walmart_Sales.csv`
-- **Language:** Python
-- **Database:** MySQL (`etl`)
-- **Connector:** `mysql-connector-python`
-- **Main table:** `Walmart_Sales`
-- **Analysis outputs:** 12 `Backup_*` tables
+## Tables created
 
-The CSV contains store and week level data: store number, date, weekly sales, holiday flag, temperature, fuel price, CPI, and unemployment.
+| Table | Example operation |
+|---|---|
+| `Backup_All` | Copy all Walmart sales rows |
+| `Backup_High_Sales` | Filter weeks with sales above 1,000,000 |
+| `Backup_Selected_Columns` | Keep Store, Date, and Weekly_Sales |
+| `Backup_Stores` | Select distinct store numbers |
+| `Backup_Sales_Sorted` | Sort rows by weekly sales descending |
+| `Backup_Store_Count` | Count weekly records by store |
+| `Backup_Average_Sales` | Calculate average weekly sales by store |
+| `Backup_High_Average_Sales` | Keep stores with average weekly sales above 1,000,000 |
+| `Backup_Sales_Range` | Filter sales between 500,000 and 1,500,000 |
+| `Backup_Holiday_Sales` | Select rows with Holiday_Flag 0 or 1 |
+| `Backup_Store_Search` | Find store numbers beginning with 1 using `LIKE` |
+| `Backup_Sales_Category` | Assign High, Medium, or Low sales categories with `CASE` |
 
-## ETL Steps
+> The sales thresholds and category boundaries are example values and can be adjusted for your analysis.
 
-1. Connect to the MySQL server and create the `etl` database if needed.
-2. Read the CSV with Python's `csv` module.
-3. Parse dates and convert CSV fields to numeric types.
-4. Create the `Walmart_Sales` table and load the rows.
-5. Create 12 analysis tables using SQL queries.
-6. Commit changes, display database tables, and close the connection.
+## Screenshots
 
-The analysis tables demonstrate:
+### ETL workflow
 
-1. Select all rows — `Backup_All`
-2. Filter high weekly sales — `Backup_High_Sales`
-3. Select specific columns — `Backup_Selected_Columns`
-4. Select distinct stores — `Backup_Stores`
-5. Sort by weekly sales — `Backup_Sales_Sorted`
-6. Count weeks by store — `Backup_Store_Count`
-7. Average weekly sales by store — `Backup_Average_Sales`
-8. Filter store averages with `HAVING` — `Backup_High_Average_Sales`
-9. Filter sales with `BETWEEN` — `Backup_Sales_Range`
-10. Filter holiday flag values with `IN` — `Backup_Holiday_Sales`
-11. Search store numbers with `LIKE` — `Backup_Store_Search`
-12. Categorize sales with `CASE` — `Backup_Sales_Category`
+![Walmart Sales ETL workflow](Walmart_Sales_ETL_Workflow.svg)
+
+### Python ETL code
+
+![Python ETL code screenshot](assets/python-code.png)
+
+### MySQL Workbench results
+
+![MySQL Workbench showing the Walmart sales tables](assets/mysql-workbench.png)
+
+Add the Python code and Workbench screenshots to the repository at `assets/python-code.png` and `assets/mysql-workbench.png`, or update the image links above to match your filenames. The workflow diagram is included as `Walmart_Sales_ETL_Workflow.svg`.
 
 ## Requirements
 
 - Python 3
 - MySQL Server
-- `mysql-connector-python`
+- MySQL Workbench (optional, for browsing tables and query results)
+- Python package: `mysql-connector-python`
 
-Install the Python dependency:
+Install the connector:
 
 ```bash
-pip install mysql-connector-python
+python -m pip install mysql-connector-python
 ```
 
-## Configuration
+## Configure the database connection
 
-Update the CSV path and MySQL connection settings in the Python script before running it:
+Update the CSV path and MySQL connection settings in the Python script. Do not commit your real database password to Git. For example, read connection details from environment variables:
 
 ```python
-CSV_FILE = r"C:\path\to\Walmart_Sales.csv"
+import os
+import mysql.connector
 
-con = mysql.connector.connect(
-    host="localhost",
-    user="root",
-    password="YOUR_MYSQL_PASSWORD",
-    database="etl"
+connection = mysql.connector.connect(
+    host=os.getenv("MYSQL_HOST", "localhost"),
+    user=os.getenv("MYSQL_USER", "root"),
+    password=os.getenv("MYSQL_PASSWORD"),
+    database=os.getenv("MYSQL_DATABASE", "etl"),
 )
 ```
 
-Use your own MySQL password. Avoid committing real credentials to a public repository; an environment variable is a safer option.
+Set `MYSQL_USER` and `MYSQL_PASSWORD` in your local environment before running the script. Make sure the MySQL account can create and write tables. Also update the script's CSV path to the location of `Walmart_Sales.csv` on your computer.
 
-## Run the Pipeline
+## Run
 
-Save the ETL script in the repository (for example, as `walmart_sales_etl.py`), make sure MySQL Server is running, then run:
+1. Start MySQL Server.
+2. Place `Walmart_Sales.csv` at the configured path.
+3. Install the Python dependency.
+4. Set the database connection environment variables and CSV path.
+5. Run the ETL script from the repository root (replace the filename if needed):
 
-```bash
-python walmart_sales_etl.py
-```
+   ```bash
+   python walmart_sales_etl.py
+   ```
 
-The script expects dates in the CSV to use `DD-MM-YYYY` format. It uses `(Store, Date)` as the primary key and updates matching records when the pipeline is run again.
+6. Refresh the schema in MySQL Workbench and inspect the `Walmart_Sales` and `Backup_*` tables.
 
-## Screenshots
+The CSV dates are expected in `DD-MM-YYYY` format. The main table uses `(Store, Date)` as its primary key; matching rows are updated when the script runs again. The script drops and recreates each `Backup_*` table to refresh its results.
 
-Add your screenshots at these paths, or change the paths below to match your repository:
+## License
 
-### Python ETL code
-
-![Python ETL code screenshot](screenshots/python_code.png)
-
-### MySQL Workbench results
-
-![MySQL Workbench screenshot](screenshots/mysql_workbench.png)
-
-Expected screenshot files:
-
-```text
-screenshots/python_code.png
-screenshots/mysql_workbench.png
-```
+No license has been selected for this project. Before publishing it or granting others permission to reuse it, choose and add a license that reflects your intended permissions.
 
