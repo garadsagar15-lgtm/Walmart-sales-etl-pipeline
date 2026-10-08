@@ -36,7 +36,7 @@ The pipeline uses Python's built-in `csv` module and `mysql-connector-python` to
 
 ### ETL workflow
 
-![Walmart Sales ETL workflow](assets/my-workflow.png)
+![Walmart Sales ETL workflow](https://github.com/garadsagar15-lgtm/Walmart-sales-etl-pipeline/blob/main/Walmart.jpg)
 
 ### Python ETL code
 
