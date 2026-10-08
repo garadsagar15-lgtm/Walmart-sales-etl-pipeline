@@ -4,7 +4,7 @@ A Python and MySQL ETL project that imports Walmart weekly sales data from a CSV
 
 ## Workflow
 
-![Walmart Sales ETL workflow](Walmart_Sales_ETL_Workflow.svg)
+![Walmart Sales ETL workflow]("C:\Users\SAGAR\Downloads\Walmart.jpg")
 
 The workflow diagram is saved as `Walmart_Sales_ETL_Workflow.svg` in this repository. If you store it in another folder, update the image path above.
 
